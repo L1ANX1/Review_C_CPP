@@ -158,34 +158,260 @@
 // }
 
 // 1.5.4
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define IN 1  /* inside a word */
+// #define OUT 0 /* outside a word */
+// /* count lines, words, and characters in input */
+// int main()
+// {
+//   int c, nl, nw, nc, state;
+//   state = OUT;
+//   nl = nw = nc = 0;
+//   while ((c = getchar()) != EOF)
+//   {
+//     ++nc;
+//     if (c == '\n')
+//       ++nl;
+//     if (c == ' ' || c == '\n' || c == '\t')
+//       state = OUT;
+//     else if (state == OUT)
+//     {
+//       state = IN;
+//       ++nw;
+//     }
+//   }
+//   printf("%d %d %d\n", nl, nw, nc);
+
+//   // todo 练习 1-11 你准备如何测试单词计数程序？如果程序中存在某种错误，那么什么样的输入最可能发现这类错误呢’
+//   // todo 练习 1-12 编写一个程序，以每行一个单词的形式打印其输入。
+
+//   system("pause"); // stdlib.h
+//   return 0;
+// }
+
+// 1.6. 数组
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define IN 1  /* inside a word */
+// #define OUT 0 /* outside a word */
+// /* count lines, words, and characters in input */
+// int main()
+// {
+//   int c, i, nwhite, nother;
+//   int ndigit[10];
+//   nwhite = nother = 0;
+//   for (i = 0; i < 10; ++i)
+//     ndigit[i] = 0;
+//   while ((c = getchar()) != EOF)
+//     if (c >= '0' && c <= '9')
+//       ++ndigit[c - '0'];
+//     else if (c == ' ' || c == '\n' || c == '\t')
+//       ++nwhite;
+//     else
+//       ++nother;
+//   printf("digits =");
+//   for (i = 0; i < 10; ++i)
+//     printf(" %d", ndigit[i]);
+//   printf(", white space = %d, other = %d\n",
+//          nwhite, nother);
+
+// 练习 1-13 编写一个程序，打印输入中单词长度的直方图。水平方向的直方图比较容易绘制，垂直方向的直方图则要困难些。
+// 练习 1-14 编写一个程序，打印输入中各个字符出现频度的直方图。
+
+//   system("pause"); // stdlib.h
+//   return 0;
+// }
+
+// 1.7. 函数
+// #include <stdio.h>
+// #include <stdlib.h>
+// int power(int m, int n);
+// /* test power function */
+// int main()
+// {
+//   int i;
+//   for (i = 0; i < 10; ++i)
+//     printf("%d %d %d\n", i, power(2, i), power(-3, i));
+
+//   system("pause"); // stdlib.h
+//   return 0;
+// }
+// /* power: raise base to n-th power; n >= 0 */
+// int power(int base, int n)
+// {
+//   int i, p;
+//   p = 1;
+//   for (i = 1; i <= n; ++i)
+//     p = p * base;
+//   return p;
+// }
+// 练习 1-15 重新编写 1.2 节中的温度转换程序，使用函数实现温度转换计算。
+
+// 1.8. 参数——传值调用
+/* power: raise base to n-th power; n >= 0; version 2 */
+// int power(int base, int n)
+// {
+//   int p;
+//   for (p = 1; n > 0; --n)
+//     p = p * base;
+//   return p;
+// }
+
+// 1.9. 字符数组
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define MAXLINE 1000 /* maximum input line length */
+// int getline(char line[], int maxline);
+// void copy(char to[], char from[]);
+// /* print the longest input line */
+// int main()
+// {
+//   int len;               /* current line length */
+//   int max;               /* maximum length seen so far */
+//   char line[MAXLINE];    /* current input line */
+//   char longest[MAXLINE]; /* longest line saved here */
+//   max = 0;
+//   while ((len = getline(line, MAXLINE)) > 0)
+//     if (len > max)
+//     {
+//       max = len;
+//       copy(longest, line);
+//     }
+//   if (max > 0) /* there was a line */
+//     printf("%s", longest);
+
+//   system("pause"); // stdlib.h
+//   return 0;
+// }
+// /* getline: read a line into s, return length */
+// int getline(char s[], int lim)
+// {
+//   int c, i;
+//   for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
+//     s[i] = c;
+//   if (c == '\n')
+//   {
+//     s[i] = c;
+//     ++i;
+//   }
+//   s[i] = '\0';
+//   return i;
+// }
+// /* copy: copy 'from' into 'to'; assume to is big enough */
+// void copy(char to[], char from[])
+// {
+//   int i;
+//   i = 0;
+//   while ((to[i] = from[i]) != '\0')
+//     ++i;
+// }
+
+// 练习 1-16 修改打印最长文本行的程序的主程序 main，使之可以打印任意长度的输入行的长度，并尽可能多地打印文本。
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define MAXLINE 10 /* maximum input line length */
+// int getline(char line[], int maxline);
+// void copy(char to[], char from[]);
+// /* print the longest input line */
+// int main()
+// {
+//   int len;               /* current line length */
+//   int max;               /* maximum length seen so far */
+//   char line[MAXLINE];    /* current input line */
+//   char longest[MAXLINE]; /* longest line saved here */
+//   max = 0;
+//   while ((len = getline(line, MAXLINE)) > 0)
+//     printf("%d ", len);
+//   if (len > max)
+//   {
+//     max = len;
+//     copy(longest, line);
+//   }
+//   if (max > 0) /* there was a line */
+//     printf("%s", longest);
+
+//   system("pause"); // stdlib.h
+//   return 0;
+// }
+// /* getline: read a line into s, return length */
+// int getline(char s[], int lim)
+// {
+//   int c, i, j;
+//   j = 0;
+//   for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
+//   {
+//     s[j++] = c;
+//   }
+//   if (c == '\n')
+//   {
+//     s[i++] = c;
+//     ++i;
+//   }
+//   s[j] = '\0';
+//   return i;
+// }
+// /* copy: copy 'from' into 'to'; assume to is big enough */
+// void copy(char to[], char from[])
+// {
+//   int i;
+//   i = 0;
+//   while ((to[i] = from[i]) != '\0')
+//     ++i;
+// }
+// 练习 1-17 编写一个程序，打印长度大于 80 个字符的所有输入行。
+// 练习 1-18 编写一个程序，删除每个输入行末尾的空格及制表符，并删除完全是空格的行。
+// 练习 1-19 编写函数 reverse(s)，将字符串 s 中的字符顺序颠倒过来。使用该函数编写一个程序，每次颠倒一个输入行中的字符顺序。
+
+// 1.10.
 #include <stdio.h>
 #include <stdlib.h>
-#define IN 1  /* inside a word */
-#define OUT 0 /* outside a word */
-/* count lines, words, and characters in input */
+#define MAXLINE 10 /* maximum input line length */
+int getline(void);
+void copy(void);
+/* print longest input line; specialized version */
 int main()
 {
-  int c, nl, nw, nc, state;
-  state = OUT;
-  nl = nw = nc = 0;
-  while ((c = getchar()) != EOF)
-  {
-    ++nc;
-    if (c == '\n')
-      ++nl;
-    if (c == ' ' || c == '\n' || c == '\t')
-      state = OUT;
-    else if (state == OUT)
+  int len;
+  extern int max;
+  extern char longest[];
+  max = 0;
+  while ((len = getline()) > 0)
+    if (len > max)
     {
-      state = IN;
-      ++nw;
+      max = len;
+      copy();
     }
-  }
-  printf("%d %d %d\n", nl, nw, nc);
-
-  // todo 练习 1-11 你准备如何测试单词计数程序？如果程序中存在某种错误，那么什么样的输入最可能发现这类错误呢’
-  // todo 练习 1-12 编写一个程序，以每行一个单词的形式打印其输入。
-
-  system("pause"); // stdlib.h
+  if (max > 0) /* there was a line */
+    printf("%s", longest);
   return 0;
 }
+/* getline: specialized version */
+int getline(void)
+{
+  int c, i;
+  extern char line[];
+  for (i = 0; i < MAXLINE - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
+    line[i] = c;
+  if (c == '\n')
+  {
+    line[i] = c;
+    ++i;
+  }
+  line[i] = '\0';
+  return i;
+}
+/* copy: specialized version */
+void copy(void)
+{
+  int i;
+  extern char line[], longest[];
+  i = 0;
+  while ((longest[i] = line[i]) != '\0')
+    ++i;
+}
+// 练习 1-20 编写程序 detab，将输入中的制表符替换成适当数目的空格，使空格充满到 下一个制表符终止位的地方。假设制表符终止位的位置是固定的，比如每隔 n 列就会出现一个制表符终止位。n 应该作为变量还是符号常量呢？
+// 练习 1-21 编写程序 entab，将空格串替换为最少数量的制表符和空格，但要保持单词之间的间隔不变。假设制表符终止位的位置与练习 1-20 的 detab 程序的情况相同。当使用一个制表符或者一个空格都可以到达下一个制表符终止位时，选用哪一种替换字符比较好？
+// 练习 1-22 编写一个程序，把较长的输入行“折”成短一些的两行或多行，折行的位置 在输入行的第 n 列之前的最后一个非空格之后。要保证程序能够智能地处理输入行很长以及 在指定的列前没有空格或制表符时的情况。
+// 练习 1-23 编写一个删除 C 语言程序中所有的注释语句。要正确处理带引号的字符串与 字符常量。在 C 语言中，注释不允许嵌套。
+// 练习 1-24 编写一个程序，查找 C 语言程序中的基本语法错误，如圆括号、方括号、花 括号不配对等。要正确处理引号（包括单引号和双引号）、转义字符序列与注释。（如果读者 想把该程序编写成完全通用的程序，难度会比较大。）
