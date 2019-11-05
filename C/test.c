@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 // int main()
 // {
 //   printf("hello, world\n");
@@ -23,35 +24,56 @@ int removeElement(int *nums, int numsSize, int val)
   }
   return c;
 }
-int main()
-{
-  int a[5] = {7, 6, 4, 3, 1};
-  // int res = maxProfit(a, 5);
-
-  // char *J = "z";
-  // char *S = "zz";
-  int res = removeElement(a, 5, 3);
-  for (int i = 0; i < res; i++)
-    printf("%d ", a[i]);
-  system("pause");
-}
-
-int removeElement(int *nums, int numsSize, int val)
+int islandPerimeter(int **grid, int gridSize, int *gridColSize)
 {
   int c = 0;
-  for (int i = 0; i < numsSize - 1; i++)
+  for (int i = 0; i < gridSize; i++)
   {
-    for (int j = i; j < numsSize; j++)
+    for (int j = 0; j < *(gridColSize + i); j++)
     {
-      if (nums[i] == val && nums[j] != val)
+      if (grid[i][j] == 1)
       {
-        nums[i] = nums[j];
-        nums[j] = val;
-        c++;
-        break;
+        if (i > 0 && i < gridSize - 1)
+        {
+          if (j <= gridColSize[i - 1] && grid[i - 1][j] == 0)
+            c++;
+          if (j <= gridColSize[i + 1] && grid[i + 1][j] == 0)
+            c++;
+        }
+        else if (i <= 0)
+          c++;
+        else if (i >= gridSize - 1)
+          c++;
+        if (j > 0 && j < gridColSize[i] - 1)
+        {
+          if (grid[i][j - 1] == 0)
+            c++;
+          if (grid[i][j + 1] == 0)
+            c++;
+        }
+        else if (j <= 0)
+          c++;
+        else if (j >= gridColSize[i] - 1)
+          c++;
       }
     }
   }
   return c;
 }
-[ 0, 1, 2, 2, 3, 0, 4, 2 ]
+int main()
+{
+  // int a[5] = {7, 6, 4, 3, 1};
+  // int res = removeElement(a, 5, 3);
+  // for (int i = 0; i < res; i++)
+  //   printf("%d ", a[i]);
+  int a[4][4] = {{0, 1, 0, 0}, {1, 1, 1, 0}, {0, 1, 0, 0}, {1, 1, 0, 0}};
+  int *pa[4];
+  for (int i = 0; i < 4; i++)
+  {
+    pa[i] = a[i];
+  }
+  int b[4] = {4, 4, 4, 4};
+  int res = islandPerimeter(pa, 4, b);
+  printf("%d", res);
+  system("pause");
+}
